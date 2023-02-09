@@ -39,18 +39,22 @@ public class ChartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        borderPane.setCenter(buildPieChart());
+        borderPane.setLeft(buildPieChart());
+        borderPane.setCenter(buildPieChart2030());
+
     }
 
     @FXML
     private void handleShowBarChart() {
 
         borderPane.setCenter(buildBarChart());
+        borderPane.setLeft(null);
     }
 
     @FXML
     private void handleShowPieChart() {
-        borderPane.setCenter(buildPieChart());
+        borderPane.setLeft(buildPieChart());
+        borderPane.setCenter(buildPieChart2030());
     }
 
     private BarChart buildBarChart() {
@@ -81,15 +85,15 @@ public class ChartController implements Initializable {
 
         barChart2020.getData().add(dataSeries1);
 
-        dataSeries2.getData().add(new XYChart.Data("0-2", 994));
-        dataSeries2.getData().add(new XYChart.Data("3-5", 1020));
-        dataSeries2.getData().add(new XYChart.Data("6-16", 4052));
+        dataSeries2.getData().add(new XYChart.Data("0-2",   994 ));
+        dataSeries2.getData().add(new XYChart.Data("3-5",   1020));
+        dataSeries2.getData().add(new XYChart.Data("6-16",  4052));
         dataSeries2.getData().add(new XYChart.Data("17-19", 1189));
         dataSeries2.getData().add(new XYChart.Data("20-29", 3090));
         dataSeries2.getData().add(new XYChart.Data("30-45", 5904));
         dataSeries2.getData().add(new XYChart.Data("46-64", 8619));
         dataSeries2.getData().add(new XYChart.Data("65-79", 7555));
-        dataSeries2.getData().add(new XYChart.Data("+80", 3183));
+        dataSeries2.getData().add(new XYChart.Data("+80",   3183));
 
         barChart2020.getData().add(dataSeries2);
 
@@ -107,23 +111,26 @@ public class ChartController implements Initializable {
 
         //Preparing ObservbleList object
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("JavaScript", 65),
-                new PieChart.Data("HTML/CSS", 56),
-                new PieChart.Data("Python", 48),
-                new PieChart.Data("SQL", 47),
-                new PieChart.Data("Java", 35),
-                new PieChart.Data("TypeScript", 30),
-                new PieChart.Data("C#", 28),
-                new PieChart.Data("C++", 24),
-                new PieChart.Data("PHP", 22),
-                new PieChart.Data("C#", 21));
+                new PieChart.Data("0-2", 1018),
+                new PieChart.Data("3-5", 1103),
+                new PieChart.Data("6-16", 4494),
+                new PieChart.Data("17-19", 1422),
+                new PieChart.Data("20-29", 3488),
+                new PieChart.Data("30-45", 5984),
+                new PieChart.Data("46-64", 10583),
+                new PieChart.Data("65-79", 6966),
+                new PieChart.Data("+80", 2306)
+        );
 
         PieChart pieChart = new PieChart(pieChartData); //Creating a Pie chart
 
         //attach tooltips
         createToolTips(pieChart);
 
-        pieChart.setTitle("Most Popular Programming Language %"); //Setting the title of the Pie chart
+
+
+
+        pieChart.setTitle("inhabitants in tønder 2022"); //Setting the title of the Pie chart
         pieChart.setClockwise(true); //setting the direction to arrange the data
         pieChart.setLabelLineLength(50); //Setting the length of the label line
         pieChart.setLabelsVisible(true); //Setting the labels of the pie chart visible
@@ -132,7 +139,7 @@ public class ChartController implements Initializable {
 
         //bind value and label on each pie slice to reflect changes
         pieChartData.forEach(data ->
-                data.nameProperty().bind(Bindings.concat(data.getName(), " ", data.pieValueProperty(), " ")
+                data.nameProperty().bind(Bindings.concat(data.getName())
                 ));
 
 
@@ -169,6 +176,78 @@ public class ChartController implements Initializable {
 
         return pieChart;
     }
+
+    private PieChart buildPieChart2030() {
+
+        //Preparing ObservbleList object
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("0-2",   994 ),
+                new PieChart.Data("3-5",   1020),
+                new PieChart.Data("6-16",  4052),
+                new PieChart.Data("17-19", 1189),
+                new PieChart.Data("20-29", 3090),
+                new PieChart.Data("30-45", 5904),
+                new PieChart.Data("46-64", 8619),
+                new PieChart.Data("65-79", 7555),
+                new PieChart.Data("+80",   3183)
+        );
+
+        PieChart pieChart = new PieChart(pieChartData); //Creating a Pie chart
+
+        //attach tooltips
+        createToolTips(pieChart);
+
+
+
+        pieChart.setTitle("inhabitants in tønder 2030"); //Setting the title of the Pie chart
+        pieChart.setClockwise(true); //setting the direction to arrange the data
+        pieChart.setLabelLineLength(50); //Setting the length of the label line
+        pieChart.setLabelsVisible(true); //Setting the labels of the pie chart visible
+        pieChart.setLegendVisible(false);
+        pieChart.setStartAngle(180);
+
+        //bind value and label on each pie slice to reflect changes
+        pieChartData.forEach(data ->
+                data.nameProperty().bind(Bindings.concat(data.getName())
+                ));
+
+
+        ContextMenu contextMenu = new ContextMenu(); //create context menu
+        MenuItem miSwitchToBarChart = new MenuItem("Switch to Bar Chart");
+        contextMenu.getItems().add(miSwitchToBarChart);
+
+
+        //Add event handler to display context menu
+        pieChart.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getButton() == MouseButton.SECONDARY) {
+                            contextMenu.show(pieChart, event.getScreenX(), event.getScreenY());
+                        }
+                    }
+                });
+
+
+        //Before Java 8
+        //Add event handler to change chart type (anonymous inner class)
+        miSwitchToBarChart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                borderPane.setCenter(buildBarChart());
+                borderPane.setLeft(null);
+            }
+        });
+
+
+        //Java 8 and newer (lambda expression)
+        //miSwitchToBarChart.setOnAction(event -> { borderPane.setCenter(buildBarChart()); });
+
+
+        return pieChart;
+    }
+
+
 
     /**
      *
