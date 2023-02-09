@@ -55,26 +55,53 @@ public class ChartController implements Initializable {
 
     private BarChart buildBarChart() {
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Most Popular Programming Language");
+        xAxis.setLabel("population of tønder sorted by age group");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("# of developers x 1000");
+        yAxis.setLabel("# of inhabitants");
 
-        BarChart barChart = new BarChart(xAxis, yAxis);
+        BarChart barChart2020 = new BarChart(xAxis, yAxis);
+
 
         XYChart.Series dataSeries1 = new XYChart.Series();
-        dataSeries1.setName("Popular programming languages rated by GitHub");
+        dataSeries1.setName("population of tønder 2020");
 
-        dataSeries1.getData().add(new XYChart.Data("JavaScript", 2300));
-        dataSeries1.getData().add(new XYChart.Data("Python", 1000));
-        dataSeries1.getData().add(new XYChart.Data("Java", 986));
-        dataSeries1.getData().add(new XYChart.Data("Ruby", 870));
-        dataSeries1.getData().add(new XYChart.Data("C++", 413));
-        dataSeries1.getData().add(new XYChart.Data("C#", 326));
-        barChart.getData().add(dataSeries1);
+        XYChart.Series dataSeries2 = new XYChart.Series();
+        dataSeries2.setName("population of tønder 2030");
 
-        return barChart;
+        dataSeries1.getData().add(new XYChart.Data("0-2", 1018));
+        dataSeries1.getData().add(new XYChart.Data("3-5", 1103));
+        dataSeries1.getData().add(new XYChart.Data("6-16", 4494));
+        dataSeries1.getData().add(new XYChart.Data("17-19", 1422));
+        dataSeries1.getData().add(new XYChart.Data("20-29", 3488));
+        dataSeries1.getData().add(new XYChart.Data("30-45", 5984));
+        dataSeries1.getData().add(new XYChart.Data("46-64", 10583));
+        dataSeries1.getData().add(new XYChart.Data("65-79", 6966));
+        dataSeries1.getData().add(new XYChart.Data("+80", 2306));
+
+        barChart2020.getData().add(dataSeries1);
+
+        dataSeries2.getData().add(new XYChart.Data("0-2", 994));
+        dataSeries2.getData().add(new XYChart.Data("3-5", 1020));
+        dataSeries2.getData().add(new XYChart.Data("6-16", 4052));
+        dataSeries2.getData().add(new XYChart.Data("17-19", 1189));
+        dataSeries2.getData().add(new XYChart.Data("20-29", 3090));
+        dataSeries2.getData().add(new XYChart.Data("30-45", 5904));
+        dataSeries2.getData().add(new XYChart.Data("46-64", 8619));
+        dataSeries2.getData().add(new XYChart.Data("65-79", 7555));
+        dataSeries2.getData().add(new XYChart.Data("+80", 3183));
+
+        barChart2020.getData().add(dataSeries2);
+
+
+
+
+        return barChart2020;
+
+
     }
+
+
 
     private PieChart buildPieChart() {
 
