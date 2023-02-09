@@ -3,7 +3,7 @@ package com.monkeygang.chart_tests;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class ChartController {
     @FXML
     private Label welcomeText;
 
