@@ -57,6 +57,12 @@ public class ChartController implements Initializable {
         borderPane.setCenter(buildPieChart2030());
     }
 
+    @FXML
+    private void handleShowWeatherChart() {
+        borderPane.setLeft(null);
+        borderPane.setCenter(buildWeatherChart());
+    }
+
     private BarChart buildBarChart() {
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("population of tønder sorted by age group");
@@ -216,6 +222,9 @@ public class ChartController implements Initializable {
         MenuItem miSwitchToBarChart = new MenuItem("Switch to Bar Chart");
         contextMenu.getItems().add(miSwitchToBarChart);
 
+        MenuItem miSwitchToWeatherChart = new MenuItem("Switch to Weather Chart");
+        contextMenu.getItems().add(miSwitchToWeatherChart);
+
 
         //Add event handler to display context menu
         pieChart.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -239,6 +248,14 @@ public class ChartController implements Initializable {
             }
         });
 
+        miSwitchToWeatherChart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                borderPane.setCenter(buildWeatherChart());
+                borderPane.setLeft(null);
+            }
+        });
+
 
         //Java 8 and newer (lambda expression)
         //miSwitchToBarChart.setOnAction(event -> { borderPane.setCenter(buildBarChart()); });
@@ -247,6 +264,55 @@ public class ChartController implements Initializable {
         return pieChart;
     }
 
+    private BarChart buildWeatherChart() {
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("days");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("# of things");
+
+        BarChart barChartWeather = new BarChart(xAxis, yAxis);
+
+
+        XYChart.Series tempSeries = new XYChart.Series();
+        tempSeries.setName("temperature in C");
+
+        XYChart.Series rainChart = new XYChart.Series();
+        rainChart.setName("chance of rain in %");
+
+        tempSeries.getData().add(new XYChart.Data("Monday",   7));
+        tempSeries.getData().add(new XYChart.Data("Tuesday",  6));
+        tempSeries.getData().add(new XYChart.Data("Wednesday",7));
+        tempSeries.getData().add(new XYChart.Data("Thursday", 7));
+        tempSeries.getData().add(new XYChart.Data("Friday",   7));
+        tempSeries.getData().add(new XYChart.Data("Saturday", 9));
+        tempSeries.getData().add(new XYChart.Data("Sunday",   8));
+
+        barChartWeather.getData().add(tempSeries);
+
+        rainChart.getData().add(new XYChart.Data("Monday",    14));
+        rainChart.getData().add(new XYChart.Data("Tuesday",   15));
+        rainChart.getData().add(new XYChart.Data("Wednesday", 24));
+        rainChart.getData().add(new XYChart.Data("Thursday",  33));
+        rainChart.getData().add(new XYChart.Data("Friday",    60));
+        rainChart.getData().add(new XYChart.Data("Saturday",  24));
+        rainChart.getData().add(new XYChart.Data("Sunday",    39));
+
+        barChartWeather.getData().add(rainChart);
+
+        //set first bar color
+        for(Node n:barChartWeather.lookupAll(".default-color0.chart-bar")) {
+            n.setStyle("-fx-bar-fill: orange;");
+        }
+        //second bar color
+        for(Node n:barChartWeather.lookupAll(".default-color1.chart-bar")) {
+            n.setStyle("-fx-bar-fill: lightblue;");
+        }
+
+
+        return barChartWeather;
+
+    }
 
 
     /**
