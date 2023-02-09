@@ -3,6 +3,7 @@ package com.monkeygang.chart_tests;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -308,6 +309,23 @@ public class ChartController implements Initializable {
         for(Node n:barChartWeather.lookupAll(".default-color1.chart-bar")) {
             n.setStyle("-fx-bar-fill: lightblue;");
         }
+
+        final String[] symbolStyles = new String[] {
+                String.format("-fx-background-color: %s, orange;", "orange"),
+                String.format("-fx-background-color: %s, lightblue;", "lightblue")
+        };
+
+        Platform.runLater(() -> {
+            for (Node node: barChartWeather.lookupAll(".chart-legend-item-symbol"))
+                for (String styleClass: node.getStyleClass())
+                    if (styleClass.startsWith("series")) {
+                        final int i = Integer.parseInt(styleClass.substring(6));
+                        node.setStyle(symbolStyles[i]);
+                        break;
+                    }
+        });
+
+
 
 
         return barChartWeather;
